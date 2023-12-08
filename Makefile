@@ -48,7 +48,7 @@ dist: distclean
 	mkdir -p gmail-$(VERSION)
 	cp -R LICENSE Makefile config.mk config.def.h README \
 	    arg.h TODO.md surf.png \
-	    gmail.1 common.h $(SRC) $(WSRC) gmail-$(VERSION)
+	    common.h $(SRC) $(WSRC) gmail-$(VERSION)
 	tar -cf gmail-$(VERSION).tar gmail-$(VERSION)
 	gzip gmail-$(VERSION).tar
 	rm -rf gmail-$(VERSION)
