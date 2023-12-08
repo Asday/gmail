@@ -4,16 +4,16 @@
 
 include config.mk
 
-SRC = surf.c
+SRC = gmail.c
 WSRC = webext-surf.c
 OBJ = $(SRC:.c=.o)
 WOBJ = $(WSRC:.c=.o)
 WLIB = $(WSRC:.c=.so)
 
-all: options surf $(WLIB)
+all: options gmail $(WLIB)
 
 options:
-	@echo surf build options:
+	@echo gmail build options:
 	@echo "CC            = $(CC)"
 	@echo "CFLAGS        = $(SURFCFLAGS) $(CFLAGS)"
 	@echo "WEBEXTCFLAGS  = $(WEBEXTCFLAGS) $(CFLAGS)"
@@ -37,37 +37,34 @@ $(WOBJ): $(WSRC)
 	$(CC) $(WEBEXTCFLAGS) $(CFLAGS) -c $(WSRC)
 
 clean:
-	rm -f surf $(OBJ)
+	rm -f gmail $(OBJ)
+	rm -f config.h
 	rm -f $(WLIB) $(WOBJ)
 
 distclean: clean
-	rm -f config.h surf-$(VERSION).tar.gz
+	rm -f config.h gmail-$(VERSION).tar.gz
 
 dist: distclean
 	mkdir -p surf-$(VERSION)
 	cp -R LICENSE Makefile config.mk config.def.h README \
-	    surf-open.sh arg.h TODO.md surf.png \
-	    surf.1 common.h $(SRC) $(WSRC) surf-$(VERSION)
-	tar -cf surf-$(VERSION).tar surf-$(VERSION)
-	gzip surf-$(VERSION).tar
-	rm -rf surf-$(VERSION)
+	    arg.h TODO.md surf.png \
+	    gmail.1 common.h $(SRC) $(WSRC) gmail-$(VERSION)
+	tar -cf gmail-$(VERSION).tar gmail-$(VERSION)
+	gzip gmail-$(VERSION).tar
+	rm -rf gmail-$(VERSION)
 
 install: all
 	mkdir -p $(DESTDIR)$(PREFIX)/bin
 	cp -f surf $(DESTDIR)$(PREFIX)/bin
-	chmod 755 $(DESTDIR)$(PREFIX)/bin/surf
+	chmod 755 $(DESTDIR)$(PREFIX)/bin/gmail
 	mkdir -p $(DESTDIR)$(LIBDIR)
 	cp -f $(WLIB) $(DESTDIR)$(LIBDIR)
 	for wlib in $(WLIB); do \
 	    chmod 644 $(DESTDIR)$(LIBDIR)/$$wlib; \
 	done
-	mkdir -p $(DESTDIR)$(MANPREFIX)/man1
-	sed "s/VERSION/$(VERSION)/g" < surf.1 > $(DESTDIR)$(MANPREFIX)/man1/surf.1
-	chmod 644 $(DESTDIR)$(MANPREFIX)/man1/surf.1
 
 uninstall:
-	rm -f $(DESTDIR)$(PREFIX)/bin/surf
-	rm -f $(DESTDIR)$(MANPREFIX)/man1/surf.1
+	rm -f $(DESTDIR)$(PREFIX)/bin/gmail
 	for wlib in $(WLIB); do \
 	    rm -f $(DESTDIR)$(LIBDIR)/$$wlib; \
 	done

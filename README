@@ -1,40 +1,23 @@
-surf - simple webkit-based browser
-==================================
-surf is a simple Web browser based on WebKit/GTK+.
+gmail - simple webkit-based browser
+===================================
+gmail is a simple kiosk for mail.google.com Web browser based on
+WebKit/GTK+.
 
 Requirements
 ------------
-In order to build surf you need GTK+ and Webkit/GTK+ header files.
-
-In order to use the functionality of the url-bar, also install dmenu[0].
+In order to build gmail you need GTK+ and Webkit/GTK+ header files.
 
 Installation
 ------------
-Edit config.mk to match your local setup (surf is installed into
+Edit config.mk to match your local setup (gmail is installed into
 the /usr/local namespace by default).
 
-Afterwards enter the following command to build and install surf (if
+Afterwards enter the following command to build and install gmail (if
 necessary as root):
 
     make clean install
 
-Running surf
-------------
+Running gmail
+-------------
 run
-	surf [URI]
-
-See the manpage for further options.
-
-Running surf in tabbed
-----------------------
-For running surf in tabbed[1] there is a script included in the distribution,
-which is run like this:
-
-	surf-open.sh [URI]
-
-Further invocations of the script will run surf with the specified URI in this
-instance of tabbed.
-
-[0] http://tools.suckless.org/dmenu
-[1] http://tools.suckless.org/tabbed
-
+	gmail
