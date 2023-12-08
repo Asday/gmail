@@ -1711,7 +1711,13 @@ decidenewwindow(WebKitPolicyDecision *d, Client *c)
  * test for link clicked but no button ? */
 		arg.v = webkit_uri_request_get_uri(
 		        webkit_navigation_action_get_request(a));
-		newwindow(c, &arg, 0);
+
+		if (!g_str_has_prefix(arg.v, "https://mail.google.com/") ||
+			!g_str_has_prefix(arg.v, "https://accounts.google.com/")) {
+			g_app_info_launch_default_for_uri(arg.v, NULL, NULL);
+		} else {
+			newwindow(c, &arg, 0);
+		}
 		break;
 	case WEBKIT_NAVIGATION_TYPE_OTHER: /* fallthrough */
 	default:
@@ -2029,132 +2035,7 @@ main(int argc, char *argv[])
 	Client *c;
 
 	memset(&arg, 0, sizeof(arg));
-
-	/* command line args */
-	ARGBEGIN {
-	case 'a':
-		defconfig[CookiePolicies].val.v = EARGF(usage());
-		defconfig[CookiePolicies].prio = 2;
-		break;
-	case 'b':
-		defconfig[ScrollBars].val.i = 0;
-		defconfig[ScrollBars].prio = 2;
-		break;
-	case 'B':
-		defconfig[ScrollBars].val.i = 1;
-		defconfig[ScrollBars].prio = 2;
-		break;
-	case 'c':
-		cookiefile = EARGF(usage());
-		break;
-	case 'C':
-		stylefile = EARGF(usage());
-		break;
-	case 'd':
-		defconfig[DiskCache].val.i = 0;
-		defconfig[DiskCache].prio = 2;
-		break;
-	case 'D':
-		defconfig[DiskCache].val.i = 1;
-		defconfig[DiskCache].prio = 2;
-		break;
-	case 'e':
-		embed = strtol(EARGF(usage()), NULL, 0);
-		break;
-	case 'f':
-		defconfig[RunInFullscreen].val.i = 0;
-		defconfig[RunInFullscreen].prio = 2;
-		break;
-	case 'F':
-		defconfig[RunInFullscreen].val.i = 1;
-		defconfig[RunInFullscreen].prio = 2;
-		break;
-	case 'g':
-		defconfig[Geolocation].val.i = 0;
-		defconfig[Geolocation].prio = 2;
-		break;
-	case 'G':
-		defconfig[Geolocation].val.i = 1;
-		defconfig[Geolocation].prio = 2;
-		break;
-	case 'i':
-		defconfig[LoadImages].val.i = 0;
-		defconfig[LoadImages].prio = 2;
-		break;
-	case 'I':
-		defconfig[LoadImages].val.i = 1;
-		defconfig[LoadImages].prio = 2;
-		break;
-	case 'k':
-		defconfig[KioskMode].val.i = 0;
-		defconfig[KioskMode].prio = 2;
-		break;
-	case 'K':
-		defconfig[KioskMode].val.i = 1;
-		defconfig[KioskMode].prio = 2;
-		break;
-	case 'm':
-		defconfig[Style].val.i = 0;
-		defconfig[Style].prio = 2;
-		break;
-	case 'M':
-		defconfig[Style].val.i = 1;
-		defconfig[Style].prio = 2;
-		break;
-	case 'n':
-		defconfig[Inspector].val.i = 0;
-		defconfig[Inspector].prio = 2;
-		break;
-	case 'N':
-		defconfig[Inspector].val.i = 1;
-		defconfig[Inspector].prio = 2;
-		break;
-	case 'r':
-		scriptfile = EARGF(usage());
-		break;
-	case 's':
-		defconfig[JavaScript].val.i = 0;
-		defconfig[JavaScript].prio = 2;
-		break;
-	case 'S':
-		defconfig[JavaScript].val.i = 1;
-		defconfig[JavaScript].prio = 2;
-		break;
-	case 't':
-		defconfig[StrictTLS].val.i = 0;
-		defconfig[StrictTLS].prio = 2;
-		break;
-	case 'T':
-		defconfig[StrictTLS].val.i = 1;
-		defconfig[StrictTLS].prio = 2;
-		break;
-	case 'u':
-		fulluseragent = EARGF(usage());
-		break;
-	case 'v':
-		die("surf-"VERSION", see LICENSE for © details\n");
-	case 'w':
-		showxid = 1;
-		break;
-	case 'x':
-		defconfig[Certificate].val.i = 0;
-		defconfig[Certificate].prio = 2;
-		break;
-	case 'X':
-		defconfig[Certificate].val.i = 1;
-		defconfig[Certificate].prio = 2;
-		break;
-	case 'z':
-		defconfig[ZoomLevel].val.f = strtof(EARGF(usage()), NULL);
-		defconfig[ZoomLevel].prio = 2;
-		break;
-	default:
-		usage();
-	} ARGEND;
-	if (argc > 0)
-		arg.v = argv[0];
-	else
-		arg.v = "about:blank";
+	arg.v = "https://mail.google.com/";
 
 	setup();
 	c = newclient(NULL);
