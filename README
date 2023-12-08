@@ -1,7 +1,7 @@
 gmail - simple webkit-based browser
 ===================================
-gmail is a simple kiosk for mail.google.com Web browser based on
-WebKit/GTK+.
+gmail is a simple kiosk for mail.google.com Web browser based on surf,
+by the (presumably ironically) named suckless group.
 
 Requirements
 ------------
