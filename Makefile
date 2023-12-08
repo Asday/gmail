@@ -1,4 +1,4 @@
-# surf - simple browser
+# gmail - kiosk for the web mailbox
 # See LICENSE file for copyright and license details.
 .POSIX:
 
@@ -15,12 +15,12 @@ all: options gmail $(WLIB)
 options:
 	@echo gmail build options:
 	@echo "CC            = $(CC)"
-	@echo "CFLAGS        = $(SURFCFLAGS) $(CFLAGS)"
+	@echo "CFLAGS        = $(GMAILCFLAGS) $(CFLAGS)"
 	@echo "WEBEXTCFLAGS  = $(WEBEXTCFLAGS) $(CFLAGS)"
 	@echo "LDFLAGS       = $(LDFLAGS)"
 
-surf: $(OBJ)
-	$(CC) $(SURFLDFLAGS) $(LDFLAGS) -o $@ $(OBJ) $(LIBS)
+gmail: $(OBJ)
+	$(CC) $(GMAILLDFLAGS) $(LDFLAGS) -o $@ $(OBJ) $(LIBS)
 
 $(OBJ) $(WOBJ): config.h common.h config.mk
 
@@ -28,7 +28,7 @@ config.h:
 	cp config.def.h $@
 
 $(OBJ): $(SRC)
-	$(CC) $(SURFCFLAGS) $(CFLAGS) -c $(SRC)
+	$(CC) $(GMAILCFLAGS) $(CFLAGS) -c $(SRC)
 
 $(WLIB): $(WOBJ)
 	$(CC) -shared -Wl,-soname,$@ $(LDFLAGS) -o $@ $? $(WEBEXTLIBS)
@@ -45,7 +45,7 @@ distclean: clean
 	rm -f config.h gmail-$(VERSION).tar.gz
 
 dist: distclean
-	mkdir -p surf-$(VERSION)
+	mkdir -p gmail-$(VERSION)
 	cp -R LICENSE Makefile config.mk config.def.h README \
 	    arg.h TODO.md surf.png \
 	    gmail.1 common.h $(SRC) $(WSRC) gmail-$(VERSION)
@@ -55,7 +55,7 @@ dist: distclean
 
 install: all
 	mkdir -p $(DESTDIR)$(PREFIX)/bin
-	cp -f surf $(DESTDIR)$(PREFIX)/bin
+	cp -f gmail $(DESTDIR)$(PREFIX)/bin
 	chmod 755 $(DESTDIR)$(PREFIX)/bin/gmail
 	mkdir -p $(DESTDIR)$(LIBDIR)
 	cp -f $(WLIB) $(DESTDIR)$(LIBDIR)
